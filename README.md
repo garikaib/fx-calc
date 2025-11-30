@@ -1,5 +1,60 @@
-# Vue 3 + Vite
+# ZimPriceCheck Forex Calculator
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A premium, responsive Forex Calculator Vue.js application designed for integration into WordPress. It features real-time exchange rates, a clean UI inspired by XE.com, and specific handling for the Zimbabwe Gold (ZiG) currency.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Features
+
+- **Real-time Rates**: Fetches live exchange rates for ZiG and global currencies.
+- **Premium UI**: Clean, modern interface using Tailwind CSS and DaisyUI, with "Brand Orange" accents.
+- **ZiG Integration**: Specialized handling for ZiG, including Buy/Sell rates and Cash Value calculations.
+- **Business Rates**: Displays live rates from popular Zimbabwean businesses (OK, Pick n Pay, etc.) with logos.
+- **Smart Inputs**: Dynamic input padding based on currency symbol length.
+- **Pluralization**: Intelligent currency name pluralization (e.g., "10 US Dollars" vs "1 US Dollar").
+- **WordPress Ready**: Scoped CSS (`#zp-fx-calc`) to prevent style conflicts when embedded in WordPress.
+
+## Tech Stack
+
+- **Vue 3**: Composition API, `<script setup>`.
+- **Vite**: Fast build tool.
+- **Pinia**: State management.
+- **Tailwind CSS**: Utility-first CSS framework.
+- **DaisyUI**: Component library for Tailwind.
+- **PostCSS**: Used for scoping styles.
+
+## Setup
+
+1.  **Install Dependencies**:
+    ```bash
+    npm install
+    ```
+
+2.  **Environment Configuration**:
+    Copy `.env.sample` to `.env` and configure your API URL if needed.
+    ```bash
+    cp .env.sample .env
+    ```
+    
+    *Note: The application defaults to `https://api.clientemails.xyz/api` if no env var is set.*
+
+3.  **Run Development Server**:
+    ```bash
+    npm run dev
+    ```
+
+4.  **Build for Production**:
+    ```bash
+    npm run build
+    ```
+    The output will be in the `dist/` directory, ready for deployment or embedding.
+
+## WordPress Integration
+
+The build is configured to output assets that can be enqueued in a WordPress plugin. Ensure your WordPress page has a container with the ID `zp-fx-calc`:
+
+```html
+<div id="zp-fx-calc"></div>
+```
+
+## License
+
+Proprietary.

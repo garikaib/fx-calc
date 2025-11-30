@@ -63,9 +63,10 @@ export const useRatesStore = defineStore('rates', {
                 const today = new Date().toISOString().split('T')[0]
 
                 // Fetch in parallel
+                const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api.clientemails.xyz/api'
                 const [fxRes, oeRes] = await Promise.all([
-                    fetch(`https://api.clientemails.xyz/api/rates/fx-rates?day=${today}`),
-                    fetch(`https://api.clientemails.xyz/api/rates/oe-rates/raw?day=${today}`)
+                    fetch(`${baseUrl}/rates/fx-rates?day=${today}`),
+                    fetch(`${baseUrl}/rates/oe-rates/raw?day=${today}`)
                 ])
 
                 if (!fxRes.ok) throw new Error(`FX Rates API Error: ${fxRes.status}`)

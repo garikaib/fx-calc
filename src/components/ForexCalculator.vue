@@ -142,6 +142,14 @@ const getCurrencySymbol = (code) => {
   }
 }
 
+const getInputPaddingClass = (currencyCode) => {
+  const symbol = getCurrencySymbol(currencyCode)
+  if (!symbol) return 'pl-5'
+  if (symbol.length === 1) return 'pl-8'
+  if (symbol.length === 2) return 'pl-12'
+  return 'pl-16'
+}
+
 const getBusinessLogo = (name) => {
   const n = name.toLowerCase()
   if (n.includes('ok')) return okLogo
@@ -223,7 +231,7 @@ onMounted(() => {
                 type="number" 
                 v-model="amount" 
                 class="input input-ghost w-full text-3xl font-bold text-gray-800 focus:outline-none focus:bg-transparent h-16 placeholder:text-gray-300" 
-                :class="{'pl-10': getCurrencySymbol(currencyA), 'pl-5': !getCurrencySymbol(currencyA)}"
+                :class="getInputPaddingClass(currencyA)"
                 placeholder="0.00"
               />
               <div class="divider divider-horizontal m-0 h-10 self-center opacity-50"></div>

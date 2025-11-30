@@ -69,7 +69,7 @@ const getCurrencyName = (code) => {
   return currency ? currency.currency : code
 }
 
-const popularCodes = ['USD', 'AUD', 'AED', 'ZAR', 'GBP', 'EUR', 'ZMW', 'NZD', 'CNY', 'JPY', 'MZN', 'BWP', 'NAD', 'CAD']
+const popularCodes = ['USD', 'ZAR', 'GBP', 'BWP', 'AUD', 'EUR', 'ZMW', 'NZD', 'JPY', 'MZN']
 
 const groupedCurrencies = computed(() => {
   let list = props.currencies

@@ -1,4 +1,4 @@
-# ZimPriceCheck Forex Calculator
+# Zimpricecheck Forex Calculator
 
 A premium, responsive Forex Calculator Vue.js application designed for integration into WordPress. It features real-time exchange rates, a clean UI inspired by XE.com, and specific handling for the Zimbabwe Gold (ZiG) currency.
 

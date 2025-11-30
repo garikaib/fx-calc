@@ -131,24 +131,6 @@ const getCurrencyName = (code, count = 1, forcePlural = false) => {
   return name
 }
 
-const getCurrencySymbol = (code) => {
-  if (code === 'ZiG') return '' // Leave ZiG alone
-  try {
-    const parts = new Intl.NumberFormat('en-US', { style: 'currency', currency: code }).formatToParts(1)
-    const symbol = parts.find(part => part.type === 'currency').value
-    return symbol
-  } catch (e) {
-    return ''
-  }
-}
-
-const getInputPaddingClass = (currencyCode) => {
-  const symbol = getCurrencySymbol(currencyCode)
-  if (!symbol) return 'pl-5'
-  if (symbol.length === 1) return 'pl-8'
-  if (symbol.length === 2) return 'pl-12'
-  return 'pl-16'
-}
 
 const getBusinessLogo = (name) => {
   const n = name.toLowerCase()
@@ -224,14 +206,10 @@ onMounted(() => {
               <span class="label-text font-bold text-gray-500 text-sm uppercase tracking-wide">Amount</span>
             </label>
             <div class="flex items-center border-2 border-gray-200 rounded-2xl hover:border-orange-500 transition-all duration-300 bg-white p-1 focus-within:border-orange-500 focus-within:ring-4 focus-within:ring-orange-500/10 shadow-sm group-hover:shadow-md relative">
-              <span v-if="getCurrencySymbol(currencyA)" class="absolute left-4 text-gray-400 font-bold text-xl pointer-events-none z-10">
-                {{ getCurrencySymbol(currencyA) }}
-              </span>
               <input 
                 type="number" 
                 v-model="amount" 
-                class="input input-ghost w-full text-3xl font-bold text-gray-800 focus:outline-none focus:bg-transparent h-16 placeholder:text-gray-300" 
-                :class="getInputPaddingClass(currencyA)"
+                class="input input-ghost w-full text-3xl font-bold text-gray-800 focus:outline-none focus:bg-transparent h-16 placeholder:text-gray-300 pl-5" 
                 placeholder="0.00"
               />
               <div class="divider divider-horizontal m-0 h-10 self-center opacity-50"></div>

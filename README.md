@@ -45,7 +45,23 @@ A premium, responsive Forex Calculator Vue.js application designed for integrati
     ```bash
     npm run build
     ```
-    The output will be in the `dist/` directory, ready for deployment or embedding.
+    
+    **Important**: By default, Vite builds to the `dist/` directory. 
+    
+    If you are integrating this into a specific WordPress plugin, you should configure the `outDir` in `vite.config.js` to point to your plugin's assets folder (e.g., `/path/to/wp-content/plugins/my-plugin/assets/fx-calc`).
+    
+    Example `vite.config.js`:
+    ```js
+    export default defineConfig({
+      plugins: [vue()],
+      base: '/wp-content/plugins/api-vuejs/assets/fx-calc/', // Ensure this matches your plugin path
+      build: {
+        outDir: '/absolute/path/to/your/plugin/assets/fx-calc',
+        emptyOutDir: true,
+        // ...
+      }
+    })
+    ```
 
 ## WordPress Integration
 

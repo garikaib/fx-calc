@@ -1,8 +1,9 @@
+```vue
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRatesStore } from '../stores/rates'
 import { storeToRefs } from 'pinia'
-import { ArrowsRightLeftIcon } from '@heroicons/vue/24/solid'
+import { ArrowsRightLeftIcon } from '@heroicons/vue/24/outline'
 import CurrencySelect from './CurrencySelect.vue'
 import cc from 'currency-codes'
 
@@ -56,18 +57,42 @@ const swap = () => {
 
 const formattedResult = computed(() => {
   const isZiG = currencyB.value === 'ZiG'
+  const val = result.value
+  
+  // Use significant figures for small values
+  if (val > 0 && val < 1) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currencyB.value,
+      maximumSignificantDigits: 4
+    }).format(val)
+  }
+
   return new Intl.NumberFormat('en-US', { 
     style: 'currency', 
     currency: currencyB.value,
     minimumFractionDigits: isZiG ? 0 : 2,
     maximumFractionDigits: isZiG ? 0 : 4
-  }).format(result.value)
+  }).format(val)
 })
 
 const currentRate = computed(() => {
   const rate = ratesStore.convert(1, currencyA.value, currencyB.value)
-  const decimals = currencyB.value === 'ZiG' ? 0 : 4
-  return `1.00 ${currencyA.value} = ${rate.toFixed(decimals)} ${currencyB.value}`
+  
+  let rateDisplay
+  if (rate > 0 && rate < 1) {
+    rateDisplay = new Intl.NumberFormat('en-US', {
+      maximumSignificantDigits: 4
+    }).format(rate)
+  } else {
+    const decimals = currencyB.value === 'ZiG' ? 0 : 4
+    rateDisplay = new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    }).format(rate)
+  }
+  
+  return `1.00 ${currencyA.value} = ${rateDisplay} ${currencyB.value}`
 })
 
 const dynamicRateText = computed(() => {
@@ -109,6 +134,14 @@ const cashValueDisplay = computed(() => {
   
   const cashValue = usdValue * zigCashRate.value
   
+  if (cashValue > 0 && cashValue < 1) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'ZiG',
+      maximumSignificantDigits: 4
+    }).format(cashValue)
+  }
+
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'ZiG',
@@ -154,15 +187,40 @@ const businessRatesTableData = computed(() => {
     const impliedRate = shop.rate * usdPerUnit
     const totalValue = foreignAmount * impliedRate
     
-    return {
-      name: shop.name,
-      rateDisplay: `1 ${foreignCurrency} = ${impliedRate.toFixed(2)}`,
-      valueDisplay: new Intl.NumberFormat('en-US', {
+    // Format Rate
+    let formattedRate
+    if (impliedRate > 0 && impliedRate < 1) {
+      formattedRate = new Intl.NumberFormat('en-US', {
+        maximumSignificantDigits: 4
+      }).format(impliedRate)
+    } else {
+      formattedRate = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      }).format(impliedRate)
+    }
+
+    // Format Value
+    let formattedValue
+    if (totalValue > 0 && totalValue < 1) {
+      formattedValue = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'ZiG',
+        maximumSignificantDigits: 4
+      }).format(totalValue)
+    } else {
+      formattedValue = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'ZiG',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
       }).format(totalValue)
+    }
+
+    return {
+      name: shop.name,
+      rateDisplay: `1 ${foreignCurrency} = ${formattedRate}`,
+      valueDisplay: formattedValue
     }
   })
 })
